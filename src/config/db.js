@@ -176,12 +176,13 @@ const db = {
 }
 
 async function initDatabase() {
+  
   // Garantir que o arquivo existe
   if (!fs.existsSync(dbPath)) {
     fs.writeFileSync(dbPath, JSON.stringify(defaultData, null, 2))
-    console.log('✅ Banco de dados JSON criado com dados iniciais')
+    console.log('Banco de dados JSON criado com dados iniciais')
   } else {
-    console.log('📂 Banco de dados JSON carregado')
+    console.log('Banco de dados JSON carregado')
   }
 }
 
