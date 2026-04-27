@@ -1,24 +1,12 @@
-// ==============================================
-// IMPORTAÇÃO DOS MODELOS
-// ==============================================
 // Importa o modelo de Pedidos para operações com a tabela de pedidos
 const Pedidos = require('../models/pedidos')
-// Importa o modelo de Cardapio para consultar itens do cardápio
 const Cardapio = require('../models/cardapio')
 
-// ==============================================
-// FUNÇÃO AUXILIAR: buildPedidoItems
-// ==============================================
-// Função responsável por construir a lista de itens de um pedido,
-// enriquecendo os dados com informações do cardápio quando necessário
 async function buildPedidoItems(items) {
-  // Valida se o parâmetro 'items' é um array. Se não for, retorna array vazio
   if (!Array.isArray(items)) return []
 
-  // Processa todos os itens em paralelo usando Promise.all
   return Promise.all(
     items.map(async (item) => {
-      // Tenta obter o ID do item, aceitando tanto 'id' quanto 'itemId' como nome do campo
       const itemId = Number(item.id || item.itemId)
       
       // Se o ID for válido, busca o item no cardápio; caso contrário, retorna null
@@ -26,22 +14,18 @@ async function buildPedidoItems(items) {
       
       // Retorna o objeto do item formatado com os campos padronizados
       return {
-        id: itemId,  // ID do item (vindo do cardápio)
-        nome: item.nome || (menuItem ? menuItem.name : null),  // Nome: prioriza o enviado, senão busca no cardápio
-        quantidade: item.quantidade !== undefined ? Number(item.quantidade) : 1,  // Quantidade: padrão é 1
-        observacao: item.observacao || '',  // Observação do item (ex: "sem cebola")
+        id: itemId,
+        nome: item.nome || (menuItem ? menuItem.name : null),
+        quantidade: item.quantidade !== undefined ? Number(item.quantidade) : 1, 
+        observacao: item.observacao || '', 
         preco: item.preco !== undefined ? Number(item.preco) : (menuItem ? Number(menuItem.preco) : 0)  // Preço: prioriza o enviado, senão busca no cardápio
       }
     })
   )
 }
 
-// ==============================================
-// FUNÇÃO AUXILIAR: calculateTotal
-// ==============================================
-// Calcula o valor total do pedido aplicando uma taxa de 27% (provavelmente serviço/gorjeta)
+// Calcula o valor total do pedido aplicando uma taxa de 27%
 function calculateTotal(items) {
-  // Valida se items é um array. Se não for, retorna 0
   if (!Array.isArray(items)) return 0
   
   // Calcula o subtotal somando (preço * quantidade) de cada item
@@ -51,23 +35,14 @@ function calculateTotal(items) {
   return Number((subtotal * 1.27).toFixed(2))
 }
 
-// ==============================================
-// CLASSE CONTROLADORA: PedidosController
-// ==============================================
 // Controller responsável por gerenciar as operações relacionadas a pedidos
 class PedidosController {
   
-  // --------------------------------------------------
-  // MÉTODO: index (Listar todos os pedidos)
-  // --------------------------------------------------
   // Retorna todos os pedidos cadastrados no sistema
   static async index(req, res) {
     return await Pedidos.getAll()
   }
 
-  // --------------------------------------------------
-  // MÉTODO: show (Buscar um pedido específico)
-  // --------------------------------------------------
   // Busca um pedido pelo ID fornecido nos parâmetros da requisição
   static async show(req, res) {
     // Converte o parâmetro 'id' para número e busca no banco
@@ -80,9 +55,6 @@ class PedidosController {
     return pedido
   }
 
-  // --------------------------------------------------
-  // MÉTODO: create (Criar um novo pedido)
-  // --------------------------------------------------
   // Cria um novo pedido com os dados fornecidos no corpo da requisição
   static async create(req, res) {
     // Extrai os campos do corpo da requisição
@@ -102,7 +74,7 @@ class PedidosController {
       cliente: cliente || null,  // Cliente: se não informado, define como null
       itens: pedidoItems,  // Lista de itens já processada
       observacao: observacao || '',  // Observação geral do pedido
-      status: 'Pendente',  // Status inicial sempre é 'Pendente'
+      status: 'Pendente',
       metodoPagamento: metodoPagamento || null,  // Método de pagamento: opcional
       total: calculateTotal(pedidoItems)  // Calcula o total com taxa de 27%
     })
@@ -111,9 +83,6 @@ class PedidosController {
     return pedido
   }
 
-  // --------------------------------------------------
-  // MÉTODO: update (Atualizar um pedido existente)
-  // --------------------------------------------------
   // Atualiza os dados de um pedido existente identificado pelo ID
   static async update(req, res) {
     // Converte o ID da URL para número
@@ -154,15 +123,10 @@ class PedidosController {
     return pedido
   }
 
-  // --------------------------------------------------
-  // MÉTODO: delete (Remover um pedido)
-  // --------------------------------------------------
   // Remove um pedido do sistema pelo ID
   static async delete(req, res) {
-    // Converte o ID da URL para número
     const id = Number(req.params.id)
     
-    // Tenta deletar o pedido (o método delete do modelo retorna boolean indicando sucesso)
     const success = await Pedidos.delete(id)
     
     // Se não conseguiu deletar (pedido não encontrado)
@@ -173,8 +137,5 @@ class PedidosController {
   }
 }
 
-// ==============================================
-// EXPORTAÇÃO DO CONTROLADOR
-// ==============================================
 // Exporta a classe para ser utilizada nas rotas
 module.exports = PedidosController
