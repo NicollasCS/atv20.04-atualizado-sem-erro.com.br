@@ -1,0 +1,57 @@
+{
+  "cardapio": [
+    {
+      "id": 1,
+      "name": "X-Burger",
+      "categoria": "Lanches",
+      "descricao": "Hambúrguer, queijo, alface e tomate",
+      "preco": 25.9,
+      "disponivel": true,
+      "criado_em": "2026-04-27T17:06:42.198Z"
+    },
+    {
+      "id": 2,
+      "name": "X-Salada",
+      "categoria": "Lanches",
+      "descricao": "Hambúrguer, queijo, alface, tomate e maionese",
+      "preco": 28.9,
+      "disponivel": true,
+      "criado_em": "2026-04-27T17:06:42.200Z"
+    },
+    {
+      "id": 3,
+      "name": "Coca-Cola 350ml",
+      "categoria": "Bebidas",
+      "descricao": "Lata 350ml",
+      "preco": 6.5,
+      "disponivel": true,
+      "criado_em": "2026-04-27T17:06:42.200Z"
+    },
+    {
+      "id": 4,
+      "name": "X-Bacon",
+      "categoria": "Lanches",
+      "descricao": "Hambúrguer com bacon crocante",
+      "preco": 32.9,
+      "disponivel": true,
+      "criado_em": "2026-04-27T17:08:27.864Z"
+    }
+  ],
+  "pedidos": [
+    {
+      "id": 2,
+      "mesa": "5",
+      "cliente": "João Silva",
+      "itens": "[{\"id\":1,\"nome\":\"X-Burger\",\"quantidade\":2,\"observacao\":\"Sem cebola\",\"preco\":25.9},{\"id\":3,\"nome\":\"Coca-Cola 350ml\",\"quantidade\":1,\"observacao\":\"\",\"preco\":6.5}]",
+      "observacao": "Cliente com pressa",
+      "status": "Pendente",
+      "metodo_pagamento": "PIX",
+      "total": 74.04,
+      "criado_em": "2026-04-27T17:10:29.531Z"
+    }
+  ],
+  "nextId": {
+    "cardapio": 5,
+    "pedidos": 3
+  }
+}

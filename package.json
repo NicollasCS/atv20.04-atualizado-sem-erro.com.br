@@ -1,0 +1,19 @@
+{
+  "name": "lanches-cia-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "npx nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["api", "lanchonete", "rest"],
+  "author": "",
+  "license": "ISC",
+  "description": "Sistema de Gestão Lanches & Cia",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {}
+}
